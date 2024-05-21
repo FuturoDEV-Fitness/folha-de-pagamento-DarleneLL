@@ -1,17 +1,6 @@
 //Função que retorne o valor a ser pago de INSS
-
-const readline = require('readline')
-
-const input = readline.createInterface(
-    process.stdin, 
-    process.stdout
-);
-
-let salarioBruto = 0;
-
-input.question("Digite o salário bruto?", (valorSalario)=>{
-    salarioBruto = valorSalario
-        input.close()
+function calcularInss(salarioBruto){
+    let valorINSS = 0;
 
      // Verifica a faixa de salário e calcula o INSS correspondente
      if (salarioBruto <= 1412.00) {
@@ -35,5 +24,7 @@ input.question("Digite o salário bruto?", (valorSalario)=>{
         valorINSS = tetoINSS;
     }
 
-    console.log("Valor a ser pago de INSS:", valorINSS.toFixed(2)); // Arredonda para duas casas decimais
-})
+    return valorINSS;
+}
+
+module.exports = calcularInss;
