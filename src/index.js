@@ -2,6 +2,9 @@ const calcularImpostoRenda = require("./calculo_imposto_renda");
 const calcularInss = require("./calculo_inss.js");
 const calcularSalarioLiquido = require("./calculo_salario_liquido");
 
+const PdfDocument = require('pdfkit')
+const fs = require('fs')
+
 //Programa que solicita o nome do funcionário,  CPF, o mês do 
 //pagamento (Numérico) e o salário bruto.
 
@@ -48,6 +51,21 @@ input.question("Digite o nome do funcionário: ", (nomeFuncionarioDigitado)=>{
                     console.log("INSS:", inss.toFixed(2)); 
                     console.log("Imposto de renda:", impostoRenda.toFixed(2)); 
                     console.log("Salário líquido:", salarioLiquido.toFixed(2)); 
+
+                    const doc = new PdfDocument()
+                    doc.pipe(fs.createWriteStream('holerite.pdf'))
+
+                    doc.fontSize(16)
+
+                    doc.text("Folha de Pagamento")
+                    doc.text(`Funcionário: ${nomeFuncionario}`)
+                    doc.text(`CPF: ${cpfFuncionario}`)
+                    doc.text(`Salário Bruto: R$ ${salarioBruto.toFixed(2)}`)
+                    doc.text(`INSS: R$ ${inss.toFixed(2)}`)
+                    doc.text(`Imposto de Renda: R$ ${impostoRenda.toFixed(2)}`)
+                    doc.text(`Salário Líquido: R$ ${salarioLiquido.toFixed(2)}`)
+                    doc.end()
+                    console.log("Pdf holerite.pdf criado")
                 })
 
             })
